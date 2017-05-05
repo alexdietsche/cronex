@@ -6,7 +6,7 @@
 - [File Structure](#file-structure)
 
 ## Goal
-Fully automated evaluation algorithm.
+Fully automated stock evaluation algorithm.
 
 
 ## Setup
