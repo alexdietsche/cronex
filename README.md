@@ -10,10 +10,10 @@ Fully automated evaluation algorithm.
 
 
 ## Setup
-This one's for you Luca, just copy the following code into your terminal and your set.
+This one's for you Luca. Change into the directory you want the project to live in and then just copy the following code into your terminal, this will create a new repository called cronex containing everything.
 
 ```shell
-git clone https://github.com/alexdietsche/cronex
+git clone git@github.com:alexdietsche/cronex.git
 ```
 ## File Structure
 
