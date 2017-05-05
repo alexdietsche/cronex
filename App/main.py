@@ -17,7 +17,7 @@ date_ = datetime.today() - timedelta(days=1)
 date = date_.strftime("%Y-%m-%d")
 
 # Read tickers
-with open('./ticker.txt') as jsonfile:
+with open('../res/ticker.txt') as jsonfile:
     companies = json.load(jsonfile)
 
 # loop through all tickers
@@ -84,7 +84,7 @@ for company in companies['Data']:
     stock_price_proposition = stock_price_discounted * (1 - safety_margin / 100)
 
     if stock_price_proposition > stock_price:
-        output_file = open('output.txt', 'a')  # File with undervalued stocks
+        output_file = open('../output/output.txt', 'a')  # File with undervalued stocks
 
         output_file.write('Stock: ')
         output_file.write(company['Name'])
