@@ -2,6 +2,7 @@
 # import sys
 # import os
 import quandl
+import numpy as np
 import json
 from datetime import datetime, timedelta
 
@@ -13,7 +14,7 @@ discount_rate = 15
 safety_margin = 25
 
 # Current date
-date_ = datetime.today() - timedelta(days=1)
+date_ = datetime.today() - timedelta(days=4)
 date = date_.strftime("%Y-%m-%d")
 
 # Read tickers
@@ -30,6 +31,7 @@ for company in companies['Data']:
                                              paginate=True)
 
     eps_dataframe = quandl.get('SF0/' + company['Ticker'] + '_EPS_MRY')
+    print(eps_dataframe)
     ek_dataframe = quandl.get('SF0/' + company['Ticker'] + '_BVPS_MRY')
     fcf_dataframe = quandl.get('SF0/' + company['Ticker'] + '_BVPS_MRY')
     revenue_dataframe = quandl.get('SF0/' + company['Ticker'] + '_REVENUE_MRY')
@@ -77,6 +79,15 @@ for company in companies['Data']:
     revenue_growth = pow(revenue[-1] / revenue[0], 1 / (len(revenue) - 1)) - 1
     fcf_growth = pow(fcf[-1] / fcf[0], 1 / (len(fcf) - 1)) - 1
 
+    # Calculate Growth with least square
+
+    A_ek = np.vstack([range(len(ek)), np.ones(len(ek))]).T
+    ek_growth_lstsq = pow(np.linalg.lstsq(A_ek, ek)[0][0], 1/(len(ek)-1)) -1
+    print(ek)
+    print(ek_growth)
+    print(ek_growth_lstsq)
+
+
     eps_future = eps_ttm * pow(1 + ek_growth, len(ek) - 1)
     pe = 18  # Find a way to calculate price earning ratio <-------------------------------------
     stock_price_future = eps_future * pe
@@ -84,7 +95,7 @@ for company in companies['Data']:
     stock_price_proposition = stock_price_discounted * (1 - safety_margin / 100)
 
     if stock_price_proposition > stock_price:
-        output_file = open('../output/output.txt', 'a')  # File with undervalued stocks
+        output_file = open('../output/invest.txt', 'a')  # File with undervalued stocks
 
         output_file.write('Stock: ')
         output_file.write(company['Name'])
@@ -112,3 +123,4 @@ for company in companies['Data']:
         output_file.close()
 
     print(company['Name'])
+    print('\n\n\n')
