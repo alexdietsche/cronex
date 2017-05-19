@@ -31,7 +31,6 @@ for company in companies['Data']:
                                              paginate=True)
 
     eps_dataframe = quandl.get('SF0/' + company['Ticker'] + '_EPS_MRY')
-    print(eps_dataframe)
     ek_dataframe = quandl.get('SF0/' + company['Ticker'] + '_BVPS_MRY')
     fcf_dataframe = quandl.get('SF0/' + company['Ticker'] + '_BVPS_MRY')
     revenue_dataframe = quandl.get('SF0/' + company['Ticker'] + '_REVENUE_MRY')
@@ -83,9 +82,6 @@ for company in companies['Data']:
 
     A_ek = np.vstack([range(len(ek)), np.ones(len(ek))]).T
     ek_growth_lstsq = pow(np.linalg.lstsq(A_ek, ek)[0][0], 1/(len(ek)-1)) -1
-    print(ek)
-    print(ek_growth)
-    print(ek_growth_lstsq)
 
 
     eps_future = eps_ttm * pow(1 + ek_growth, len(ek) - 1)
@@ -123,4 +119,3 @@ for company in companies['Data']:
         output_file.close()
 
     print(company['Name'])
-    print('\n\n\n')
